@@ -29,7 +29,7 @@ Tujuan dari pelaksanaan proyek penambangan teks ini adalah:
 
 ## BAB 2: METODOLOGI PENELITIAN
 
-### 2.1 Alur Ringkas Pipeline & Logika Validasi (Flowchart Singkat)
+### 2.1 Alur Ringkas Pipeline & Logika Validasi 
 Diagram berikut menggambarkan alur kerja utama secara ringkas beserta percabangan validasi batas kuantitas data:
 
 ```mermaid
@@ -43,7 +43,7 @@ flowchart TD
     F --> G([Finish])
 ```
 
-### 2.2 Diagram Alir Detail Pipeline (Detailed Flowchart)
+### 2.2 Diagram Alir Detail Pipeline 
 Arsitektur modular pipeline penambangan teks terbagi menjadi tahapan-tahapan teknis terperinci sebagai berikut:
 
 ```mermaid
