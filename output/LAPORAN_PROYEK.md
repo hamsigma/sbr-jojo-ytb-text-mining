@@ -32,21 +32,44 @@ Tujuan dari pelaksanaan proyek penambangan teks ini adalah:
 
 Pipeline analisis teks yang dibangun dalam proyek ini mengikuti arsitektur modular yang terbagi menjadi empat tahapan utama:
 
+```mermaid
+flowchart TD
+    subgraph Fase1 ["Fase 1: Pengumpulan Data (Scraping)"]
+        A["Mulai"] --> B["URL Target: https://youtu.be/k4mcxk8IZ2Y"]
+        B --> C["Eksekusi: src/01_scrape.py<br/>(youtube-comment-downloader)"]
+        C --> D{"Jumlah Komentar<br/>>= 2.500?"}
+        D -- "Tidak" --> C2["Tarik Tambahan Sort Popular"]
+        C2 --> D
+        D -- "Ya" --> E["Simpan Data Mentah:<br/>data/raw/sbr_comments_raw.csv<br/>(2.538 baris)"]
+    end
+
+    subgraph Fase2 ["Fase 2: NLP Preprocessing & Lemmatization"]
+        E --> F["Eksekusi: src/02_preprocess.py"]
+        F --> G["Hapus Duplikasi Berdasarkan CID"]
+        G --> H["Case Folding (Huruf Kecil)"]
+        H --> I["Regex Cleaning: Hapus URL, @mention, Timestamps, Angka, & Simbol"]
+        I --> J["Tokenisasi: nltk.word_tokenize"]
+        J --> K["Stopword Removal: NLTK English + Domain & Refined Stopwords"]
+        K --> L["POS Tagging & Lemmatisasi: WordNetLemmatizer"]
+        L --> M["Filter Panjang Token (len >= 3)"]
+        M --> N["Eliminasi Baris Kosong (206 baris dibuang)"]
+        N --> O["Simpan Data Bersih:<br/>data/processed/sbr_comments_clean.csv<br/>(2.332 baris, Retensi 91,88%)"]
+    end
+
+    subgraph Fase3 ["Fase 3: Visualisasi, Pelaporan, & Publikasi"]
+        O --> P["Eksekusi: src/03_visualize.py"]
+        P --> Q["Ekstraksi Korpus Kata (9.996 kata, 2.954 vocab)"]
+        Q --> R["Hitung Frekuensi: collections.Counter"]
+        R --> S["Simpan Top-20 Kata:<br/>output/top_words.csv"]
+        R --> T["Render Diagram Batang 300 DPI:<br/>output/top_20_words_chart.png"]
+        R --> U["Render Word Cloud 1600x900 @ 300 DPI:<br/>output/sbr_wordcloud.png"]
+        S & T & U --> V["Penyusunan Laporan Proyek:<br/>output/LAPORAN_PROYEK.md"]
+        V --> W["Push ke Repositori GitHub"]
+        W --> X["Selesai"]
+    end
 ```
-[Sumber Data: YouTube URL]
-          │
-          ▼
-[Tahap 1: Data Collection & Scraping (src/01_scrape.py)]
-          │  Output: data/raw/sbr_comments_raw.csv
-          ▼
-[Tahap 2: Preprocessing & Lemmatization (src/02_preprocess.py)]
-          │  Output: data/processed/sbr_comments_clean.csv
-          ▼
-[Tahap 3: Visualisasi & Ekstraksi Frekuensi (src/03_visualize.py)]
-          │  Output: output/sbr_wordcloud.png & output/top_words.csv
-          ▼
-[Tahap 4: Analisis dan Penyusunan Laporan Proyek (LAPORAN_PROYEK.md)]
-```
+
+> **Catatan:** Diagram alir versi visual resolusi tinggi (300 DPI) juga tersedia pada berkas [output/pipeline_flowchart.png](file:///c:/Users/Administrator/Documents/SEMESTER%205/B%20Machine%20Learning%20&%20Big%20Data/Data%20Mining/output/pipeline_flowchart.png).
 
 ### 2.1 Pengumpulan Data (*Data Collection & Scraping*)
 Pengumpulan data primer dilakukan secara terprogram memanfaatkan modul `youtube-comment-downloader`. Skrip pengikis (`src/01_scrape.py`) dirancang untuk mengambil korpus komentar tanpa membutuhkan kuota token YouTube Data API v3 yang terbatas. Atribut data mentah yang diekstraksi mencakup:
