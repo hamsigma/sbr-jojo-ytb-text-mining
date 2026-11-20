@@ -3,8 +3,7 @@
 
 **Disusun Oleh:**  
 - **Nama:** Ilham Ramadhani  
-- **NIM:** 2411102441066  
-- **Mata Kuliah:** Data Mining / Machine Learning & Big Data  
+- **Mata Kuliah:** Machine Learning & Big Data  
 - **Program Studi:** Teknik Informatika  
 
 ---
