@@ -111,3 +111,11 @@ python src/03_visualize.py
 # 4. Generate visual flowchart
 python src/generate_flowchart.py
 ```
+
+## Hasil Visualisasi
+
+### 1. Word Cloud (1600x900 px @ 300 DPI)
+![Word Cloud Steel Ball Run Trailer](output/sbr_wordcloud.png)
+
+### 2. Diagram Batang Top-20 Kata Kunci Dominan (300 DPI)
+![Top 20 Kata Trailer Steel Ball Run](output/top_20_words_chart.png)

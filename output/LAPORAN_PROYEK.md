@@ -138,7 +138,10 @@ flowchart TD
     end
 ```
 
-> **Catatan:** Versi gambar resolusi tinggi dari diagram alir detail (300 DPI) juga tersedia pada berkas [output/pipeline_flowchart.png](file:///c:/Users/Administrator/Documents/SEMESTER%205/B%20Machine%20Learning%20&%20Big%20Data/Data%20Mining/output/pipeline_flowchart.png).
+> **Catatan:** Versi gambar resolusi tinggi dari diagram alir detail (300 DPI) disajikan pada Gambar 2.1 berikut:
+
+#### Gambar 2.1 Diagram Alir Detail Pipeline Text Mining
+![Diagram Alir Pipeline](pipeline_flowchart.png)
 
 ---
 
@@ -242,6 +245,12 @@ Visualisasi dieksekusi melalui modul [src/03_visualize.py](file:///c:/Users/Admi
 1. **Penyimpanan Tabel Frekuensi:** Data Top-20 kata dominan disimpan dalam berkas `output/top_words.csv`.
 2. **Generasi Word Cloud Resolusi Tinggi:** Menggunakan parameter dimensi 1600x900 piksel, palet warna *viridis*, batas maksimal 150 kata, dan opsi `collocations=False` untuk mencegah duplikasi pasangan kata. Dihasilkan berkas `output/sbr_wordcloud.png` dengan kerapatan cetak 300 DPI.
 3. **Diagram Batang Horizontal:** Visualisasi kuantitatif frekuensi kata yang dilengkapi label angka presisi pada berkas `output/top_20_words_chart.png` (300 DPI).
+
+#### Gambar 4.1 Visualisasi Word Cloud Komentar Trailer Steel Ball Run (1600x900 px, 300 DPI)
+![Word Cloud Steel Ball Run Trailer](sbr_wordcloud.png)
+
+#### Gambar 4.2 Diagram Batang Frekuensi Top-20 Kata Kunci Dominan (300 DPI)
+![Top 20 Kata Trailer Steel Ball Run](top_20_words_chart.png)
 
 ### 4.4 Tahap 4: Pembahasan Tematik dan Temuan Wawasan
 Berdasarkan kata-kata dominan yang berhasil diekstraksi, terdapat 4 pilar tematik utama yang mencerminkan psikologi dan persepsi publik:
