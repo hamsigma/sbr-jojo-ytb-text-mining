@@ -30,16 +30,18 @@ Tujuan dari pelaksanaan proyek penambangan teks ini adalah:
 
 ## BAB 2: METODOLOGI PENELITIAN
 
-### 2.1 Alur Ringkas Pipeline (Flowchart Singkat)
-Diagram berikut menggambarkan alur kerja utama secara ringkas dari awal hingga akhir:
+### 2.1 Alur Ringkas Pipeline & Logika Validasi (Flowchart Singkat)
+Diagram berikut menggambarkan alur kerja utama secara ringkas beserta percabangan validasi batas kuantitas data:
 
 ```mermaid
-flowchart LR
+flowchart TD
     A([Start]) --> B[Data Collection<br/>Komentar YouTube SBR]
-    B --> C[Scraping<br/>src/01_scrape.py]
-    C --> D[Preprocessing<br/>src/02_preprocess.py]
-    D --> E[Word Cloud<br/>src/03_visualize.py]
-    E --> F([Finish])
+    B --> C[Scraping Komentar<br/>src/01_scrape.py]
+    C --> D{Jumlah Data<br/>>= 2.500?}
+    D -- "Tidak (< 2.500)<br/>Sesuaikan Parameter & Scrape Ulang" --> C
+    D -- "Ya (>= 2.500)" --> E[NLP Preprocessing & Lemmatisasi<br/>src/02_preprocess.py]
+    E --> F[Word Cloud & Analisis Frekuensi<br/>src/03_visualize.py]
+    F --> G([Finish])
 ```
 
 ### 2.2 Diagram Alir Detail Pipeline (Detailed Flowchart)
