@@ -4,6 +4,18 @@ Proyek ini merupakan pipeline *end-to-end* Text Mining dan analisis persepsi pub
 
 ## Diagram Alir Pipeline (Flowchart)
 
+### 1. Alur Ringkas (Quick Flowchart)
+```mermaid
+flowchart LR
+    A([Start]) --> B[Data Collection<br/>Komentar YouTube SBR]
+    B --> C[Scraping<br/>src/01_scrape.py]
+    C --> D[Preprocessing<br/>src/02_preprocess.py]
+    D --> E[Word Cloud<br/>src/03_visualize.py]
+    E --> F([Finish])
+```
+
+### 2. Alur Detail (Detailed Flowchart)
+
 ```mermaid
 flowchart TD
     subgraph Fase1 ["Fase 1: Pengumpulan Data (Scraping)"]

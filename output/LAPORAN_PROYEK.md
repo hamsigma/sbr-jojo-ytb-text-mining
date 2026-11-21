@@ -30,7 +30,20 @@ Tujuan dari pelaksanaan proyek penambangan teks ini adalah:
 
 ## BAB 2: METODOLOGI PENELITIAN
 
-Pipeline analisis teks yang dibangun dalam proyek ini mengikuti arsitektur modular yang terbagi menjadi empat tahapan utama:
+### 2.1 Alur Ringkas Pipeline (Flowchart Singkat)
+Diagram berikut menggambarkan alur kerja utama secara ringkas dari awal hingga akhir:
+
+```mermaid
+flowchart LR
+    A([Start]) --> B[Data Collection<br/>Komentar YouTube SBR]
+    B --> C[Scraping<br/>src/01_scrape.py]
+    C --> D[Preprocessing<br/>src/02_preprocess.py]
+    D --> E[Word Cloud<br/>src/03_visualize.py]
+    E --> F([Finish])
+```
+
+### 2.2 Diagram Alir Detail Pipeline (Detailed Flowchart)
+Arsitektur modular pipeline penambangan teks terbagi menjadi tahapan-tahapan teknis terperinci sebagai berikut:
 
 ```mermaid
 flowchart TD
@@ -71,7 +84,7 @@ flowchart TD
 
 > **Catatan:** Diagram alir versi visual resolusi tinggi (300 DPI) juga tersedia pada berkas [output/pipeline_flowchart.png](file:///c:/Users/Administrator/Documents/SEMESTER%205/B%20Machine%20Learning%20&%20Big%20Data/Data%20Mining/output/pipeline_flowchart.png).
 
-### 2.1 Pengumpulan Data (*Data Collection & Scraping*)
+### 2.3 Pengumpulan Data (*Data Collection & Scraping*)
 Pengumpulan data primer dilakukan secara terprogram memanfaatkan modul `youtube-comment-downloader`. Skrip pengikis (`src/01_scrape.py`) dirancang untuk mengambil korpus komentar tanpa membutuhkan kuota token YouTube Data API v3 yang terbatas. Atribut data mentah yang diekstraksi mencakup:
 - Pengenal komentar unik (`cid`)
 - Teks komentar asli (`text`)
@@ -81,7 +94,7 @@ Pengumpulan data primer dilakukan secara terprogram memanfaatkan modul `youtube-
 
 Dataset disimpan dalam format CSV dengan pengkodean karakter `utf-8-sig` pada direktori `data/raw/sbr_comments_raw.csv`.
 
-### 2.2 Prapemrosesan Teks (*Text Preprocessing*)
+### 2.4 Prapemrosesan Teks (*Text Preprocessing*)
 Dataset komentar media sosial memiliki tingkat derau (*noise*) yang sangat tinggi, meliputi penggunaan bahasa gaul, singkatan, emoji, tanda baca berlebih, dan tautan luar. Skrip `src/02_preprocess.py` menerapkan standar pemrosesan teks bahasa Inggris sebagai berikut:
 
 1. **Penghapusan Duplikasi:** Memfilter rekaman dengan `cid` atau isi teks yang identik untuk menjamin integritas data unik.
@@ -104,7 +117,7 @@ Dataset komentar media sosial memiliki tingkat derau (*noise*) yang sangat tingg
 
 Data bersih hasil prapemrosesan disimpan pada direktori `data/processed/sbr_comments_clean.csv`.
 
-### 2.3 Visualisasi dan Ekstraksi Frekuensi
+### 2.5 Visualisasi dan Ekstraksi Frekuensi
 Skrip `src/03_visualize.py` mengeksekusi perhitungan distribusi frekuensi kata menggunakan struktur data `collections.Counter`. Selanjutnya dihasilkan dua luaran utama:
 1. **Tabel Frekuensi Top-20 Kata (`output/top_words.csv`):** Menyajikan peringkat 20 kata kunci paling signifikan.
 2. **Word Cloud Resolusi Tinggi (`output/sbr_wordcloud.png`):** Dibuat menggunakan pustaka `wordcloud` dengan konfigurasi kanvas 1600x900 piksel, kerapatan 300 DPI, latar belakang putih, palet warna *viridis*, dan parameter `collocations=False` untuk mencegah redudansi pasangan kata ganda.
