@@ -3,10 +3,10 @@
 
 **Disusun Oleh:**  
 - **Nama Kelompok:** 
-   1. Ilham Ramadhani         2411102441066
-   2. Fatwa Ikhwan Maulaya    2411102441063
-   3. Alil Akbar              2411102441067
-   4. Muh. Rifqy Asdar        2411102441160
+   Ilham Ramadhani         2411102441066
+   Fatwa Ikhwan Maulaya    2411102441063
+   Alil Akbar              2411102441067
+   Muh. Rifqy Asdar        2411102441160
 - **Mata Kuliah:** Data Mining / Machine Learning & Big Data  
 - **Program Studi:** Teknik Informatika   
 
