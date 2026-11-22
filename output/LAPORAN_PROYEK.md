@@ -2,7 +2,6 @@
 ## Analisis Persepsi dan Respons Publik terhadap Trailer Resmi JoJo’s Bizarre Adventure: Steel Ball Run pada Platform YouTube
 
 **Disusun Oleh:**  
-**Disusun Oleh:**  
 - **Nama Kelompok:** 
    1. Ilham Ramadhani         2411102441066
    2. Fatwa Ikhwan Maulaya    2411102441063
