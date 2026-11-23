@@ -108,7 +108,7 @@ Arsitektur modular menyeluruh yang memperlihatkan dekomposisi tiap fase teknis d
 ```mermaid
 flowchart TD
     subgraph Fase1 ["Fase 1: Pengumpulan Data (Scraping)"]
-        A["Mulai (Start)"] --> B["URL Target: https://youtu.be/k4mcxk8IZ2Y"]
+        A([Start]) --> B["URL Target: https://youtu.be/k4mcxk8IZ2Y"]
         B --> C["Eksekusi: src/01_scrape.py<br/>(youtube-comment-downloader)"]
         C --> D{"Jumlah Komentar<br/>>= 2.500?"}
         D -- "Tidak" --> C2["Tarik Tambahan Sort Popular"]
@@ -129,16 +129,14 @@ flowchart TD
         N --> O["Simpan Data Bersih:<br/>data/processed/sbr_comments_clean.csv<br/>(2.332 baris, Retensi 91,88%)"]
     end
 
-    subgraph Fase3 ["Fase 3: Visualisasi, Pelaporan, & Publikasi"]
+    subgraph Fase3 ["Fase 3: Analisis Frekuensi & Visualisasi Word Cloud"]
         O --> P["Eksekusi: src/03_visualize.py"]
         P --> Q["Ekstraksi Korpus Kata (9.996 kata, 2.954 vocab)"]
         Q --> R["Hitung Frekuensi: collections.Counter"]
         R --> S["Simpan Top-20 Kata:<br/>output/top_words.csv"]
         R --> T["Render Diagram Batang 300 DPI:<br/>output/top_20_words_chart.png"]
         R --> U["Render Word Cloud 1600x900 @ 300 DPI:<br/>output/sbr_wordcloud.png"]
-        S & T & U --> V["Penyusunan Laporan Proyek:<br/>output/LAPORAN_PROYEK.md"]
-        V --> W["Push ke Repositori GitHub"]
-        W --> X["Selesai (End)"]
+        S & T & U --> V([Finish])
     end
 ```
 

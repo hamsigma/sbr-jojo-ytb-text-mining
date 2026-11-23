@@ -1,6 +1,7 @@
 """
 Script: Generate Publication-Grade Pipeline Flowchart Diagram
 Output: output/pipeline_flowchart.png (High Resolution, 300 DPI)
+Flow: START -> Scraping (with loop) -> Preprocessing -> Word Cloud Visualization -> FINISH
 """
 
 import os
@@ -10,8 +11,8 @@ import matplotlib.patches as patches
 def draw_flowchart(output_path="output/pipeline_flowchart.png"):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     
-    # Ukuran kanvas proporsional (16:10)
-    fig, ax = plt.subplots(figsize=(16, 12), dpi=300)
+    # Kanvas proporsional (16:11)
+    fig, ax = plt.subplots(figsize=(16, 11), dpi=300)
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
     ax.axis("off")
@@ -57,8 +58,10 @@ def draw_flowchart(output_path="output/pipeline_flowchart.png"):
         if label:
             ax.text((x1+x2)/2 + 2, (y1+y2)/2, label, fontsize=8.5, fontweight="bold", color="#d32f2f", zorder=4)
 
-    # 1. Start Node (Kolom Kiri - Mulai & Scraping)
-    add_box(20, 88, 26, 5, "MULAI (START)", "Identifikasi Sumber Data Video", "#e8f5e9", "#43a047", "#1b5e20")
+    # ==========================================
+    # 1. FASE 1: PENGUMPULAN DATA (KOLOM KIRI)
+    # ==========================================
+    add_box(20, 88, 26, 5, "START", "Inisialisasi Sumber Data Video SBR", "#e8f5e9", "#43a047", "#1b5e20")
     
     add_arrow(20, 85.5, 20, 79.5)
     add_box(20, 76, 30, 6, "1. SCRAPING KOMENTAR", "Target: https://youtu.be/k4mcxk8IZ2Y\nModule: src/01_scrape.py", "#e1f5fe", "#0288d1", "#01579b")
@@ -66,10 +69,10 @@ def draw_flowchart(output_path="output/pipeline_flowchart.png"):
     add_arrow(20, 73, 20, 66)
     add_decision(20, 62, 3.8, "Jumlah Komentar\n>= 2.500?", "#fff9c4", "#fbc02d", "#f57f17")
     
-    # Cabang Decision (Tidak)
+    # Cabang Decision (Tidak: Loop Kembali ke Scraping)
     ax.annotate("", xy=(30, 76), xytext=(26, 62),
                 arrowprops=dict(facecolor="#d32f2f", edgecolor="#d32f2f", width=1.2, headwidth=6, headlength=6), zorder=1)
-    ax.text(30.5, 69, "Tidak\n(Sort Popular)", fontsize=8, fontweight="bold", color="#d32f2f")
+    ax.text(30.5, 69, "Tidak (< 2.500)\n(Sort Popular)", fontsize=8, fontweight="bold", color="#d32f2f")
 
     # Cabang Decision (Ya)
     add_arrow(20, 58.2, 20, 51.5, "Ya")
@@ -79,7 +82,9 @@ def draw_flowchart(output_path="output/pipeline_flowchart.png"):
     ax.annotate("", xy=(50, 88), xytext=(35, 48),
                 arrowprops=dict(facecolor="#37474f", edgecolor="#37474f", width=1.5, headwidth=7, headlength=7), zorder=1)
 
-    # 2. Preprocessing Nodes (Kolom Tengah)
+    # ==========================================
+    # 2. FASE 2: PREPROCESSING (KOLOM TENGAH)
+    # ==========================================
     add_box(50, 88, 30, 5.5, "2. TEXT PREPROCESSING", "Pembersihan Teks: Case Folding\nRegex: Hapus URL, @mention, Angka, Emoji", "#ede7f6", "#5e35b1", "#311b92")
 
     add_arrow(50, 85.25, 50, 78.75)
@@ -94,27 +99,23 @@ def draw_flowchart(output_path="output/pipeline_flowchart.png"):
     add_arrow(50, 47.75, 50, 41.25)
     add_box(50, 38, 30, 5.5, "DATA BERSIH TERSIMPAN", "data/processed/sbr_comments_clean.csv\n(2.332 Baris Komentar Bersih)", "#e8f5e9", "#43a047", "#1b5e20")
 
-    # Transisi ke Kolom Kanan (Visualisasi & Laporan)
+    # Transisi ke Kolom Kanan (Visualisasi Word Cloud)
     ax.annotate("", xy=(80, 88), xytext=(65, 38),
                 arrowprops=dict(facecolor="#37474f", edgecolor="#37474f", width=1.5, headwidth=7, headlength=7), zorder=1)
 
-    # 3. Visualisasi & Laporan Nodes (Kolom Kanan)
+    # ==========================================
+    # 3. FASE 3: ANALISIS & WORD CLOUD (KOLOM KANAN)
+    # ==========================================
     add_box(80, 88, 28, 5.5, "3. EKSTRAKSI FREKUENSI", "Korpus: 9.996 Kata (2.954 Vocab)\nHitung Distribusi Kemunculan Kata", "#fff3e0", "#fb8c00", "#e65100")
 
-    add_arrow(80, 85.25, 80, 78.75)
-    add_box(80, 75.5, 28, 5.5, "OUTPUT TABEL FREKUENSI", "output/top_words.csv\nTop-20 Kata Paling Sering Muncul", "#fff3e0", "#fb8c00", "#e65100")
+    add_arrow(80, 85.25, 80, 76.75)
+    add_box(80, 73.5, 28, 5.5, "OUTPUT TABEL FREKUENSI", "output/top_words.csv\nTop-20 Kata Kunci Dominan", "#fff3e0", "#fb8c00", "#e65100")
 
-    add_arrow(80, 72.75, 80, 66.25)
-    add_box(80, 63, 28, 5.5, "RENDER WORD CLOUD & GRAFIK", "1600x900 px @ 300 DPI (Viridis)\nsbr_wordcloud.png & chart.png", "#fff3e0", "#fb8c00", "#e65100")
+    add_arrow(80, 70.75, 80, 62.25)
+    add_box(80, 59, 28, 5.5, "VISUALISASI WORD CLOUD", "1600x900 px @ 300 DPI (Viridis)\nsbr_wordcloud.png & chart.png", "#fff3e0", "#fb8c00", "#e65100")
 
-    add_arrow(80, 60.25, 80, 53.75)
-    add_box(80, 50.5, 28, 5.5, "4. PENYUSUNAN LAPORAN", "output/LAPORAN_PROYEK.md\nAnalisis: Rilis, Dub, Karakter, Afeksi", "#e0f2f1", "#00897b", "#004d40")
-
-    add_arrow(80, 47.75, 80, 41.25)
-    add_box(80, 38, 28, 5.5, "PUSH KE GITHUB", "git push origin main\nhttps://github.com/hamsigma/...", "#eceff1", "#546e7a", "#263238")
-
-    add_arrow(80, 35.25, 80, 27.5)
-    add_box(80, 24, 24, 5, "SELESAI (END)", "Seluruh Luaran Terverifikasi", "#e8f5e9", "#43a047", "#1b5e20")
+    add_arrow(80, 56.25, 80, 47.75)
+    add_box(80, 44.5, 24, 5, "FINISH", "Visualisasi Word Cloud Selesai", "#e8f5e9", "#43a047", "#1b5e20")
 
     # Container Box / Grouping Visual
     def add_group_box(x, y, w, h, title, bg_color="#fafafa", border_color="#cfd8dc"):
@@ -128,13 +129,12 @@ def draw_flowchart(output_path="output/pipeline_flowchart.png"):
 
     add_group_box(4, 40, 32, 53, "FASE 1: PENGUMPULAN DATA")
     add_group_box(33.5, 30, 33, 63, "FASE 2: NLP PREPROCESSING")
-    add_group_box(64.5, 15, 31, 78, "FASE 3: ANALISIS & LUARAN")
+    add_group_box(64.5, 36.5, 31, 56.5, "FASE 3: ANALISIS & VISUALISASI WORD CLOUD")
 
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f"[SUKSES] Flowchart resolusi tinggi berhasil disimpan di: {output_path}")
+    print(f"[SUKSES] Flowchart resolusi tinggi berhasil diperbarui di: {output_path}")
 
 if __name__ == "__main__":
     draw_flowchart()
-
